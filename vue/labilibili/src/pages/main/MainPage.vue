@@ -2,14 +2,29 @@
   <!--回到顶端的按钮-->
   <div id="back-top-btn-id" class="back-top-btn detail-btn-chosen 
   common-btn-center based-box" @click="scrollToTop()">返回顶部</div>
-  <div class="common-box">
-    <!--TODO：待删-->
+  <!-- <div class="common-box">
     <p>
       <el-button type="primary" @click="turnToBigModel()">{{ logInfo }}</el-button>
     </p>
-  </div>
+  </div> -->
   <div class="main-page">
     <SearchPanel class="search-box flex-based-container" />
+    <div class="icon-box">
+      <div class="icon-box-content">
+        <div class="item" @click="turnToBigModel()">
+          <el-icon :size="size" :color="color">
+            <ChatDotRound />
+          </el-icon>
+          <span style="margin-left: 10px;">AI助手</span>
+        </div>
+        <div class="item" @click="turnToColumn()">
+          <el-icon :size="size" :color="color">
+            <ChatLineSquare />
+          </el-icon>
+          <span style="margin-left: 10px;">专栏</span>
+        </div>
+      </div>
+    </div>
     <template id="video-box-id" class="video-box">
       <!--NOTE 设每行有4个元素-->
       <video-small-wrap v-for="(item, index) in videoView" :key="index">
@@ -51,6 +66,13 @@ const router = useRouter()
 const aLoadingVue = defineAsyncComponent(() =>
   import("@/components/public/aLoading")
 )
+//跳转到专栏
+const turnToColumn = () => {
+  const routeURL = router.resolve({
+    path: `/column`,
+  })
+  window.open(routeURL.href, '_blank')
+}
 // 跳转至大模型
 const turnToBigModel = () => {
   if (userId === 0) {
@@ -173,6 +195,7 @@ onBeforeUnmount(() => {
 
 .main-page {
   display: flex;
+  position: relative;
   flex-direction: column;
 }
 
@@ -266,5 +289,49 @@ onBeforeUnmount(() => {
   height: 2rem;
   background: #000;
   border-radius: 50%;
+}
+
+.icon-box {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 400px;
+  height: 80px;
+  /* background-color: #8f228f; */
+  /* color: #000; */
+  margin: 20px;
+  text-align: left;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 30px;
+    background-color: #5d5c5cd8;
+    padding: 20px 0;
+
+  }
+
+  .icon-box-content {
+    position: absolute;
+    left: 10px;
+    display: flex;
+    /* align-items: center; */
+    height: 50px;
+
+    .item {
+      margin-right: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        color: #79b1ec;
+
+      }
+    }
+
+  }
+
 }
 </style>

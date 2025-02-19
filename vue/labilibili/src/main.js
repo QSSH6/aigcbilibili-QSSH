@@ -17,9 +17,19 @@ import VueLazyload from "vue-lazyload"
 import errImg from "./assets/img/lazyLoad/err.png"
 import loadImg from "./assets/img/lazyLoad/loading.jpg"
 import "@/assets/css/danmi.scss"
+
+import SvgIcon from '@/components/SVG'
+
+
+
+
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+app.component('svg-icon', SvgIcon)
+const svg = require.context('./assets/svg', false, /.svg$/)
+const requireAll = (requireContext) => requireContext.keys().map(requireContext)
+requireAll(svg)
 app.use(Particles)
 // app.use(SkeletonPlugin)
 app.use(pinia)

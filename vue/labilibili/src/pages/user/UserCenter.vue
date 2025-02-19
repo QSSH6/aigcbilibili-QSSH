@@ -53,6 +53,12 @@ const menuConfig = reactive([
     title: "设置权限",
     permiss: upId == userId
   },
+  {
+    icon: "DataAnalysis",
+    index: `/userCenter/charts/${upId}`,
+    title: "数据中心",
+    permiss: upId == userId
+  },
 ])
 // },
 // {

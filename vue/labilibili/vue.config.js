@@ -1,8 +1,8 @@
 const { defineConfig } = require('@vue/cli-service') // NOTE 本文件不是JS模块，不能直接使用ES6的import
 
 // const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin')
-// const path = require('path')
-
+const path = require('path')
+let resolve = path.resolve
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false, // 关闭eslint校验
@@ -29,7 +29,7 @@ module.exports = defineConfig({
     // NOTE 跨域配置
     proxy: {
       '/api': {
-        target: "******",
+        target: "https://www.labilibili.com",
         // 允许跨域：如果不开的话，会拦截响应
         changeOrigin: true,
       },
@@ -41,11 +41,31 @@ module.exports = defineConfig({
         }
       },
       '/wschat': {
-        target: '*******',
+        target: 'https://www.labilibili.com',
         ws: true,
         changeOrigin: true,
       }
 
     }
+  },
+  chainWebpack(config) {
+    // 配置 svg-sprite-loader
+    config.module
+      .rule('svg')
+      .exclude.add(resolve('src/assets/svg'))
+      .end()
+    config.module
+      .rule('icons')
+      .test(/.svg$/)
+      .include.add(resolve('src/assets/svg'))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+      .end()
   }
+
+
 })

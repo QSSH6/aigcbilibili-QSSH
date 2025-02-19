@@ -14,136 +14,153 @@ const router = createRouter({
         path: '/',
         redirect: '/main', // 视频首页
         component: () => import('@/pages/home/HomePage.vue'),
-        children: [{
-            path: '/main',
-            meta: { // NOTE meta路由元信息，当前路由是否需要进一步处理
-                requireAuth: false,
-                title: "BILIBILI ╰(*°▽°*)╯"
+        children: [
+            {
+                path: "/column",
+                meta: {
+                    title: '专栏',
+                    requireAuth: false,
+                },
+                component: () => import('@/pages/specialColumn/index.vue')
             },
-            component: () => import('@/pages/main/MainPage.vue')
-        }, {
-            path: '/hot',
-            meta: {
-                requireAuth: false,
-                title: "热点"
+            {
+                path: '/content',
+                meta: {
+                    title: '专栏内容',
+                    requireAuth: false
+                },
+                component: () => import('@/pages/specialColumn/content/index.vue')
             },
-            name: 'HotBig',
-            component: () => import('@/pages/hot/HotPage.vue'),
-        }, {
-            path: '/trend',
-            meta: {
-                requireAuth: true,
-                title: "动态页"
-            },
-            name: 'TrendBig',
-            component: () => import('@/pages/trend/TrendPage.vue')
-        }, {
-            path: '/history',
-            meta: {
-                requireAuth: true,
-                title: "历史记录"
-            },
-            component: () => import('@/pages/history/History.vue')
-        }, {
-            path: '/live',
-            meta: {
-                requireAuth: false,
-                title: "直播推荐"
-            },
-            component: () => import('@/pages/live/LivePage.vue')
-        }, {
-            path: '/article',
-            meta: {
-                requireAuth: false,
-                title: "历史记录"
-            },
-            component: () => import('@/pages/article/ArticlePage.vue')
-        }, {
-            path: '/search',
-            meta: {
-                requireAuth: false,
-                title: "搜索结果"
-            },
-            component: () => import('@/pages/search/SearchPage.vue')
-        }, {
-            path: '/forum',
-            meta: {
-                requireAuth: false,
-                title: "论坛首页"
-            },
-            component: () => import('@/pages/forum/ForumPage.vue')
-        }, {
-            path: '/shop',
-            meta: {
-                requireAuth: false,
-                title: "购物推荐"
-            },
-            component: () => import('@/pages/shop/ShopPage.vue')
-        }, {
-            path: '/message',
-            meta: {
-                requireAuth: true,
-                title: "我的消息"
-            },
-            redirect: '/message/Reply/:userId',
-            component: () => import('@/pages/message/MessagePage.vue'),
-            children: [{
-                path: '/message/Reply/:userId',
-                component: () => import('@/pages/message/ReplyMe.vue')
+            {
+                path: '/main',
+                meta: { // NOTE meta路由元信息，当前路由是否需要进一步处理
+                    requireAuth: false,
+                    title: "BILIBILI ╰(*°▽°*)╯"
+                },
+                component: () => import('@/pages/main/MainPage.vue')
             }, {
-                path: '/message/At/:userId',
-                component: () => import('@/pages/message/AtMe.vue')
+                path: '/hot',
+                meta: {
+                    requireAuth: false,
+                    title: "热点"
+                },
+                name: 'HotBig',
+                component: () => import('@/pages/hot/HotPage.vue'),
             }, {
-                path: '/message/ThumbsUpMe/:userId',
-                component: () => import('@/pages/message/ThumbsUpMe.vue')
+                path: '/trend',
+                meta: {
+                    requireAuth: true,
+                    title: "动态页"
+                },
+                name: 'TrendBig',
+                component: () => import('@/pages/trend/TrendPage.vue')
             }, {
-                path: '/message/SystemNotice/:userId',
-                component: () => import('@/pages/message/SystemNotice.vue')
+                path: '/history',
+                meta: {
+                    requireAuth: true,
+                    title: "历史记录"
+                },
+                component: () => import('@/pages/history/History.vue')
             }, {
-                path: '/message/MyChat/:userId',
-                name: "chatPage",
-                component: () => import('@/pages/message/chat/ChatPage.vue'),
+                path: '/live',
+                meta: {
+                    requireAuth: false,
+                    title: "直播推荐"
+                },
+                component: () => import('@/pages/live/LivePage.vue')
+            }, {
+                path: '/article',
+                meta: {
+                    requireAuth: false,
+                    title: "历史记录"
+                },
+                component: () => import('@/pages/article/ArticlePage.vue')
+            }, {
+                path: '/search',
+                meta: {
+                    requireAuth: false,
+                    title: "搜索结果"
+                },
+                component: () => import('@/pages/search/SearchPage.vue')
+            }, {
+                path: '/forum',
+                meta: {
+                    requireAuth: false,
+                    title: "论坛首页"
+                },
+                component: () => import('@/pages/forum/ForumPage.vue')
+            }, {
+                path: '/shop',
+                meta: {
+                    requireAuth: false,
+                    title: "购物推荐"
+                },
+                component: () => import('@/pages/shop/ShopPage.vue')
+            }, {
+                path: '/message',
+                meta: {
+                    requireAuth: true,
+                    title: "我的消息"
+                },
+                redirect: '/message/Reply/:userId',
+                component: () => import('@/pages/message/MessagePage.vue'),
+                children: [{
+                    path: '/message/Reply/:userId',
+                    component: () => import('@/pages/message/ReplyMe.vue')
+                }, {
+                    path: '/message/At/:userId',
+                    component: () => import('@/pages/message/AtMe.vue')
+                }, {
+                    path: '/message/ThumbsUpMe/:userId',
+                    component: () => import('@/pages/message/ThumbsUpMe.vue')
+                }, {
+                    path: '/message/SystemNotice/:userId',
+                    component: () => import('@/pages/message/SystemNotice.vue')
+                }, {
+                    path: '/message/MyChat/:userId',
+                    name: "chatPage",
+                    component: () => import('@/pages/message/chat/ChatPage.vue'),
+                    props: (route) => ({
+                        receiverContent: route.query.receiverContent,
+                        receiverId: route.query.receiverId
+                    })
+                }]
+            }, {
+                path: '/userCenter',
+                meta: {
+                    requireAuth: true,
+                    title: "个人主页"
+                },
+                redirect: '/userCenter/myItem/:userId',
+                component: () => import('@/pages/user/UserCenter.vue'),
+                children: [{
+                    path: '/userCenter/myItem/:userId',
+                    component: () => import('@/pages/user/myItem/MyItem.vue')
+                }, {
+                    path: '/userCenter/charts/:userId',
+                    component: () => import('@/pages/user/DataCenter.vue')
+                }, {
+                    path: '/userCenter/trends/:userId',
+                    component: () => import('@/pages/user/NewTrend.vue')
+                }, {
+                    path: '/userCenter/uploadVideo/:userId',
+                    component: () => import('@/pages/user/upVideo/UpVideo.vue')
+                }, {
+                    path: '/userCenter/permission/:userId',
+                    component: () => import('@/pages/user/PermissSet.vue')
+                }]
+            }, {
+                path: '/videoDetail/:videoId',
+                name: 'videoDetail',
+                meta: {
+                    requireAuth: false,
+                    title: "视频详情页"
+                },
+                component: () => import('@/pages/videoDetail/VideoDetail.vue'),
                 props: (route) => ({
-                    receiverContent: route.query.receiverContent,
-                    receiverId: route.query.receiverId
+                    upId: route.query.upId
                 })
             }]
-        }, {
-            path: '/userCenter',
-            meta: {
-                requireAuth: true,
-                title: "个人主页"
-            },
-            redirect: '/userCenter/myItem/:userId',
-            component: () => import('@/pages/user/UserCenter.vue'),
-            children: [{
-                path: '/userCenter/myItem/:userId',
-                component: () => import('@/pages/user/myItem/MyItem.vue')
-            }, {
-                path: '/userCenter/charts/:userId',
-                component: () => import('@/pages/user/DataCenter.vue')
-            }, {
-                path: '/userCenter/trends/:userId',
-                component: () => import('@/pages/user/NewTrend.vue')
-            }, {
-                path: '/userCenter/uploadVideo/:userId',
-                component: () => import('@/pages/user/upVideo/UpVideo.vue')
-            }, {
-                path: '/userCenter/permission/:userId',
-                component: () => import('@/pages/user/PermissSet.vue')
-            }]
-        }, {
-            path: '/videoDetail/:videoId',
-            name: 'videoDetail',
-            meta: {
-                requireAuth: false,
-                title: "视频详情页"
-            },
-            component: () => import('@/pages/videoDetail/VideoDetail.vue'),
-            props: (route) => ({
-                upId: route.query.upId
-            })
-        }]
     }, {
         path: '/404',
         meta: {
